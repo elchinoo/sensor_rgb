@@ -72,9 +72,9 @@ void imprime_msg(SENSOR_INFO *info) {
   display.setCursor(10, 42);
   display.print("LIDO:");
   display.print(info->vm);
-  display.print(", ");
+  display.print(",");
   display.print(info->vd);
-  display.print(", ");
+  display.print(",");
   display.print(info->az);
   
   display.setCursor(10, 52);

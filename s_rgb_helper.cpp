@@ -88,20 +88,14 @@ int ler_sensor(COR p_cor) {
 }
 
 int calc_cor(SENSOR_INFO *info) {
-  /*
-  pot_vm = analogRead(POT_VM);
-  pot_vd = analogRead(POT_VD);
-  pot_az = analogRead(POT_AZ);
-  */
 
-  if ( (info->vm >=  info->vm_min && info->vm <= info->vm_max) && (info->vd >=  info->vd_min && info->vd <= info->vd_max) && (info->az >= info->az_min && info->az <= info->az_max) ) {
-    info->cor = VERMELHO; // Red
-  } else if ( (info->vm >=  info->vm_min && info->vm <= info->vm_max) && (info->vd >=  info->vd_min && info->vd <= info->vd_max) && (info->az >= info->az_min && info->az <= info->az_max) ) {
-    info->cor = VERDE; // Green
-  } else if ( (info->vm >=  info->vm_min && info->vm <= info->vm_max) && (info->vd >=  info->vd_min && info->vd <= info->vd_max) && (info->az >= info->az_min && info->az <= info->az_max) ) {
-    info->cor = AMARELO; // Yellow
-  } else if ( (info->vm >=  info->vm_min && info->vm <= info->vm_max) && (info->vd >=  info->vd_min && info->vd <= info->vd_max) && (info->az >= info->az_min && info->az <= info->az_max) ) {
-    info->cor = AZUL; // Blue
+  if ( (info->vm >=  info->vm_min && info->vm <= info->vm_max) && 
+      (info->vd >=  info->vd_min && info->vd <= info->vd_max) && 
+      (info->az >= info->az_min && info->az <= info->az_max) ) {
+    info->cor = SENSOR_TIPO;
+    digitalWrite(RELE, LOW);
+    delay(10);
+    digitalWrite(RELE, HIGH);
   } else {
     info->cor = INDEFINIDA;
   }

@@ -14,18 +14,18 @@
 #include <Wire.h>
 
 // Pinos do TCS230
-#define S0 10
-#define S1 11
-#define S2 8
-#define S3 9
-#define OUT A0
+#define S0 7
+#define S1 8
+#define S2 9
+#define S3 10
+#define OUT A1
 #define RELE 12
 
 // Potenciometros
 #define POT_COR A3
 
-#define BT_CFG 03
-#define BT_RESET 02
+#define BT_CFG 3
+#define BT_CONFIRM 2
 
 // Monitor
 #define M_SDA A4

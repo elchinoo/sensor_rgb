@@ -60,7 +60,7 @@ void setup() {
 
   // Botoes
   pinMode(BT_CFG, INPUT);
-  pinMode(BT_RESET, INPUT);
+  pinMode(BT_CONFIRM, INPUT);
 
   // Rele
   pinMode(RELE, OUTPUT);
@@ -87,11 +87,13 @@ void setup() {
 
   // Interrupcoes
   attachInterrupt(digitalPinToInterrupt(BT_CFG), int_config, RISING);
-  attachInterrupt(digitalPinToInterrupt(BT_RESET), int_confirma, RISING);
+  attachInterrupt(digitalPinToInterrupt(BT_CONFIRM), int_confirma, RISING);
 
   old_press = 0;
 
   estado = ST_LEITURA;
+
+  //reset_config(&info);
 }
 
 void loop() {
@@ -104,10 +106,9 @@ void loop() {
     case ST_CONFIG_VD_MAX:
     case ST_CONFIG_AZ_MIN:
     case ST_CONFIG_AZ_MAX: ler_pot(); break;
-
     //
-    case ST_RESET: reset_config(&info); break;
-
+    // case ST_RESET: reset_config(&info); break;
+    //
     // 
     case ST_LEITURA: 
     default: ler_cor(&info); break;
