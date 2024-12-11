@@ -30,6 +30,9 @@
 #define BT_CFG 3
 #define BT_CONFIRM 2
 
+#define MAP_FROM 0
+#define MAP_TO 2000
+
 // Monitor
 #define M_SDA A4
 #define M_SCL A5

@@ -53,7 +53,7 @@ void ler_pot();
 
 void setup()
 {
-  //Serial.begin(115200); // Serial communication
+  // Serial.begin(115200); // Serial communication
 
   // Reseta a variavel de configuracao e le a configuracao da memoria
   memset(&config, 0, sizeof(SENSOR_INFO));
@@ -79,7 +79,6 @@ void setup()
 
   /***** Setup e inicializacao da maquina de estados (ME) *****/
   estado = ST_INIT;
-  
 
   // "Desliga" o RELE de interface com o CLP
   digitalWrite(RELE, HIGH);
@@ -93,6 +92,7 @@ void setup()
   estado = ST_LEITURA;
 }
 
+COR_LEITURA cor_lida;
 void loop()
 {
   //
@@ -112,6 +112,38 @@ void loop()
   default:
     estado = ST_LEITURA;
     GY31_getRGBDdata(&config, &cor);
+
+    cor_lida = INDEFINIDA;
+    GY31_corFromRGB(&cor, &cor_lida);
+
+    // Dispara o rele
+    if (cor_lida == SENSOR_TIPO)
+    {
+      // Checa se esta acima do valor minimo para as leituras
+      switch (SENSOR_TIPO)
+      {
+      case VERMELHO:
+      case AMARELO:
+        if (cor.red < config.r_min)
+          return;
+        break;
+
+      case VERDE:
+        if (cor.green < config.g_min)
+          return;
+        break;
+
+      case AZUL:
+        if (cor.blue < config.b_min)
+          return;
+        break;
+      }
+      
+      digitalWrite(RELE, LOW);
+      delay(5);
+      digitalWrite(RELE, HIGH);
+    }
+
     SSD1306_tela_principal(&config, &cor);
     break;
   }
@@ -134,25 +166,25 @@ void int_confirma()
   switch (estado)
   {
   case ST_CONFIG_R_MIN:
-    config.r_min = map(pot_cor, 0, 1023, 0, 3000);
+    config.r_min = map(pot_cor, 0, 1023, MAP_FROM, MAP_TO);
     break;
   case ST_CONFIG_R_BASE:
-    config.r_base = map(pot_cor, 0, 1023, 0, 3000);
+    config.r_base = map(pot_cor, 0, 1023, MAP_FROM, MAP_TO);
     break;
   case ST_CONFIG_G_MIN:
-    config.g_min = map(pot_cor, 0, 1023, 0, 3000);
+    config.g_min = map(pot_cor, 0, 1023, MAP_FROM, MAP_TO);
     break;
   case ST_CONFIG_G_BASE:
-    config.g_base = map(pot_cor, 0, 1023, 0, 3000);
+    config.g_base = map(pot_cor, 0, 1023, MAP_FROM, MAP_TO);
     break;
   case ST_CONFIG_B_MIN:
-    config.b_min = map(pot_cor, 0, 1023, 0, 3000);
+    config.b_min = map(pot_cor, 0, 1023, MAP_FROM, MAP_TO);
     break;
   case ST_CONFIG_B_BASE:
-    config.b_base = map(pot_cor, 0, 1023, 0, 3000);
+    config.b_base = map(pot_cor, 0, 1023, MAP_FROM, MAP_TO);
     break;
   case ST_CONFIG_TIME_UPD_DSP:
-    config.time_upd_display = map(pot_cor, 0, 1023, 0, 3000);
+    config.time_upd_display = map(pot_cor, 0, 1023, MAP_FROM, MAP_TO);
     break;
   default:
     estado = ST_LEITURA;
@@ -164,8 +196,8 @@ void int_confirma()
 void ler_pot()
 {
   pot_cor = analogRead(POT_COR);
-  uint32_t vlr = map(pot_cor, 0, 1023, 0, 3000);
+  uint32_t vlr = map(pot_cor, 0, 1023, MAP_FROM, MAP_TO);
 
-  SSD1306_menu((ESTADOS) estado, vlr);
+  SSD1306_menu((ESTADOS)estado, vlr);
   delay(100);
 }

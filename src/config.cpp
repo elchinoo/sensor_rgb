@@ -19,6 +19,12 @@ void static CFG_set_config_str(const SENSOR_CONFIG *base_config, SENSOR_CONFIG *
     new_config->g_base = base_config->g_base;
     new_config->b_base = base_config->b_base;
     new_config->cor = base_config->cor;
+
+    new_config->r_min = base_config->r_min;
+    new_config->g_min = base_config->g_min;
+    new_config->b_min = base_config->b_min;
+    new_config->time_upd_display = base_config->time_upd_display;
+
     new_config->finger = base_config->finger;
 }
 
@@ -31,6 +37,9 @@ void CFG_initialize(SENSOR_CONFIG *config)
         tmp.r_base = DEFAULT_R_BASE;
         tmp.g_base = DEFAULT_G_BASE;
         tmp.b_base = DEFAULT_B_BASE;
+        tmp.r_min = 0;
+        tmp.g_min = 0;
+        tmp.b_min = 0;
         tmp.cor = INDEFINIDA;
         tmp.time_upd_display = DEFAULT_TIME_UPD_DSP;
         tmp.finger = CFG_FINGER;
@@ -46,7 +55,11 @@ void CFG_gravar(SENSOR_CONFIG *config)
     tmp.r_base = config->r_base;
     tmp.g_base = config->g_base;
     tmp.b_base = config->b_base;
+    tmp.r_min = config->r_min;
+    tmp.g_min = config->g_min;
+    tmp.b_min = config->b_min;
     tmp.cor = config->cor;
+    tmp.time_upd_display = config->time_upd_display;
     tmp.finger = config->finger;
 
     EEPROM.put(EEPROM_ADDR_0, tmp);

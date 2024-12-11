@@ -14,8 +14,6 @@
 #include "GY31.h"
 #include "SSD1306.h"
 
-#define SENSOR_TIPO VERMELHO
-
 typedef struct {
   uint16_t vm_min;
   uint16_t vm_max;

@@ -38,7 +38,7 @@ typedef struct
     uint32_t clear;
 } COR_RGB;
 
-#define SENSOR_TIPO VERMELHO
+#define SENSOR_TIPO AZUL
 
 void GY31_initialize();
 void GY31_setReadScale(GY31_READ_SCALE scale);
